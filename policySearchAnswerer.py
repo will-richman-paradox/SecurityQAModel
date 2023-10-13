@@ -22,12 +22,9 @@ def read_powerpoint(file_path):
                 table = shape.table
                 for row in table.rows:
                     for cell in row.cells:
-                        if text.endswith(" "):
-                            text += cell.text
-                        else:
-                            text += cell.text + " "
-
-                    text += "\n"
+                        text += cell.text + " "
+                    text += "\t"
+                text += "\n"
 
     return text
 

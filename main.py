@@ -3,10 +3,14 @@ from policySearchAnswerer import *
 from answerComparer import *
 from questionFormatter import *
 
+
 def main():
 
     # Question Prompt and Gathering Question
     question = input("\nWhat is your data security question for Paradox?\n")
+
+    # Determining yes/no question
+    yes_no_question = question_determiner(question)
 
     # Calling questionFormatter.py to format question
     question = format_question(question)
@@ -35,8 +39,21 @@ def main():
     final_answer = best_answer[0]
     final_score = best_answer[1]
 
-    # Print final answer
-    print("Final Answer: " + final_answer)
-    print("Final Score: " + str(final_score))
+    # Handling Yes/No Answer Questions
+    if yes_no_question:
+        yes_answer = yes_no_determination(question, final_answer)
+        if yes_answer:
+            print("Final Answer: Yes")
+            print("Final Score: " + str(final_score))
+        else:
+            print("Final Answer: No")
+            print("Final Score: " + str(final_score))
+
+    # Handling Short Answer Questions
+    else:
+        # Print final answer
+        print("Final Answer: " + final_answer)
+        print("Final Score: " + str(final_score))
+
 
 main()

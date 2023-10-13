@@ -1,3 +1,5 @@
+# import nltk
+from transformers import pipeline
 
 def format_question(question):
     # Words to remove from sentence
@@ -25,3 +27,49 @@ def format_question(question):
 
     question = ' '. join(question)
     return question
+
+
+# For Determining Yes/No question
+def question_determiner(question):
+    # AUX verb + subject + main verb or
+    yes_no_question = False
+
+    # Verbs indicating yes/no questions
+    aux_verbs = ['has', 'have', 'had', 'is', 'am', 'are', 'been', 'being', 'was', 'were',
+                 'does', 'do', 'did', 'will', 'would', 'shall', 'should', 'may', 'might',
+                 'must', 'can', 'could']
+
+    # Formatting question to be able to check the first word
+    question_words = question.lower().split()
+
+    # Checking first word of question against the aux_verb list
+    for word in aux_verbs:
+        if word == question_words[0]:
+            yes_no_question = True
+
+    return yes_no_question
+
+
+# Sentiment Analysis on Yes/No Questions
+def yes_no_determination(question, answer):
+    # Boolean to determine Yes/No
+    yes_answer = False
+
+    # Important Sentiment Analyser form Transformers
+    sentiment_pipeline = pipeline("sentiment-analysis")
+
+    # Formatting Question and Answer to be put in the pipeline
+    data = [question, answer]
+
+    # Sentiment Analysis on data
+    sentiment = sentiment_pipeline(data)
+
+    # Accessing POSITIVE/NEGATIVE label from the Sentiment Analysis
+    question_label = sentiment[0]['label']
+    answer_label = sentiment[0]['label']
+
+    # If POSITIVE/POSITIVE OR NEGATIVE/NEGATIVE change yes_answer to True
+    if question_label == answer_label:
+        yes_answer = True
+
+    return yes_answer
