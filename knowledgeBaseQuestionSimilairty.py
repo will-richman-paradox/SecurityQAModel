@@ -4,6 +4,7 @@ import requests
 
 API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
 
+'''
 # Create a DataFrame of the Paradox Security Knowledge Base
 df = pd.read_csv("/Users/will.richman/Downloads/ParadoxSecurityKnowledgeBase.csv", usecols=['Question / Topic', 'Answer'])
 
@@ -15,6 +16,18 @@ questions = df['Question / Topic'].tolist()
 # Answers Preparation
 df.dropna(subset=['Answer'], inplace=True)
 answers = df['Answer'].tolist()
+'''
+
+# Create a DataFrame of the Training Data
+df = pd.read_csv("/Users/will.richman/Downloads/Training Data for Q&A Model.csv", usecols=['Questions', 'Answers'])
+
+# Questions Preperation
+df.dropna(subset=['Questions'], inplace=True)
+questions = df['Questions'].tolist()
+
+# Answers Preperation
+df.dropna(subset=['Answers'], inplace=True)
+answers = df['Answers'].tolist()
 
 
 def query(payload):
